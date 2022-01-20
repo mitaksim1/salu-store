@@ -19,6 +19,20 @@ class ClothesRepository extends ServiceEntityRepository
         parent::__construct($registry, Clothes::class);
     }
 
+    /**
+     * Cherche juste les articles non vendus
+     *
+     * @return Clothes[]
+     */
+    public function findAllClothesNotSold(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.isSold = false')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Clothes[] Returns an array of Clothes objects
     //  */

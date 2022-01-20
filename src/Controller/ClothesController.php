@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Clothes;
+use App\Repository\ClothesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -10,22 +11,23 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ClothesController extends AbstractController
 {
+    private $em;
+    private $clothesRepository;
+
+    public function __construct(EntityManagerInterface $em, ClothesRepository $clothesRepository)
+    {
+        $this->clothesRepository = $clothesRepository;
+        $this->em = $em;
+    }
     /**
      * @Route("/clothes", name="clothes.index")
      */
-    public function index(EntityManagerInterface $em): Response
+    public function index(): Response
     {
-        $clothes = new Clothes();
-        $clothes->setName('Vestido preto')
-                ->setDescription('SVestido preto curto')
-                ->setSize(36)
-                ->setPrice(70.00)
-                ->setSlug('vestido-preto')
-                ->setFile('../../public/images/black-dress.jpg');
-
-                $em->persist($clothes);
-                $em->flush();
-
+        // Récupération des clothes de la base
+        $clothes = $this->clothesRepository->findAllClothesNotSold();
+        $clothes[0]->setIsSold(true);
+        $this->em->flush();
         return $this->render('clothes/index.html.twig', [
             'current_menu' => 'clothes',
         ]);
