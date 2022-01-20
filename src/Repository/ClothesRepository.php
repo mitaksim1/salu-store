@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Clothes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -20,18 +21,43 @@ class ClothesRepository extends ServiceEntityRepository
     }
 
     /**
-     * Cherche juste les articles non vendus
+     * Retourne un tableau des articles pas encore vendus
      *
      * @return Clothes[]
      */
     public function findAllClothesNotSold(): array
     {
-        return $this->createQueryBuilder('c')
-            ->where('c.isSold = false')
-            ->getQuery()
-            ->getResult()
+        return $this->findAllClothesNotSoldQuery()
+                ->where('c.isSold = false')
+                ->getQuery()
+                ->getResult()
         ;
     }
+
+    /**
+     * Retourne un tableau des 4 derniers articles
+     * 
+     * @return Clothes[]
+     */
+    public function findLatest()
+    {
+        return $this->findAllClothesNotSoldQuery()
+                ->where('c.isSold = false')
+                ->setMaxResults(4)
+                ->getQuery()
+                ->getResult()
+        ; 
+    }
+
+    /**
+     * Request all not sold clothes
+     */
+    private function findAllClothesNotSoldQuery(): QueryBuilder
+    {
+        return $this->createQueryBuilder('c')
+                ->where('c.isSold = false');
+    }
+
 
     // /**
     //  * @return Clothes[] Returns an array of Clothes objects

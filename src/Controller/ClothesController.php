@@ -24,10 +24,7 @@ class ClothesController extends AbstractController
      */
     public function index(): Response
     {
-        // Récupération des clothes de la base
-        $clothes = $this->clothesRepository->findAllClothesNotSold();
-        $clothes[0]->setIsSold(true);
-        $this->em->flush();
+    
         return $this->render('clothes/index.html.twig', [
             'current_menu' => 'clothes',
         ]);
