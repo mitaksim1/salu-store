@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ClothesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Cocur\Slugify\Slugify;
 
 /**
  * @ORM\Entity(repositoryClass=ClothesRepository::class)
@@ -117,7 +118,9 @@ class Clothes
 
     public function getSlug(): ?string
     {
-        return $this->slug;
+        $slugify = new Slugify();
+        
+        return $slugify->slugify($this->name);
     }
 
     public function setSlug(string $slug): self

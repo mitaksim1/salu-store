@@ -21,12 +21,31 @@ class ClothesController extends AbstractController
     }
     /**
      * @Route("/clothes", name="clothes.index")
+     * @return Response
      */
     public function index(): Response
     {
     
         return $this->render('clothes/index.html.twig', [
             'current_menu' => 'clothes',
+        ]);
+    }
+
+    /**
+     * @Route("/clothes/{slug}-{id}", name="clothes.show", requirements={"slug": "[a-z0-9\-]*$"})
+     * @return Response
+     */
+    public function show(Clothes $clothes, string $slug): Response
+    {
+        if ($clothes->getSlug() !== $slug) {
+            return $this->redirectToRoute('clothes.show', [
+                'id' => $clothes->getId(),
+                'slug' => $clothes->getSlug()
+            ], 301);
+        }
+        return $this->render('clothes/show.html.twig', [
+            'current_menu' => 'clothes',
+            'clothes' => $clothes
         ]);
     }
 }
