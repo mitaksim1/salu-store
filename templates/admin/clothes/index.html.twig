@@ -1,0 +1,35 @@
+{% extends 'base-dashboard.html.twig' %}
+
+{% block title %}Pagina administraçao{% endblock %}
+
+{% block body %}
+<!-- Content Row -->
+<div class="row">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Açao</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in clothes %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>
+                    <a href="{{ path('admin.dashboard.edit', {id: item.id}) }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i>Editar</a>
+                </td>
+                <td>
+                    <a href="{{ path('admin.dashboard.new') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i>Criar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>   
+</div>
+<!-- End of content row -->   
+{% endblock %}
+
+                    
+
+        

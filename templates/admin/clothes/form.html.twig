@@ -1,0 +1,15 @@
+{{ form_start(form) }}
+{# Permet de mettre en forme le fomrulaire #}
+<div class="row">
+    <div class="col-md-4">{{ form_row(form.name) }}</div>
+    <div class="col-md-4">{{ form_row(form.description) }}</div>
+    <div class="col-md-4">{{ form_row(form.size) }}</div>
+</div>
+<div class="row">
+    <div class="col-md-2">{{ form_row(form.price) }}</div>
+    <div class="col-md-2">{{ form_row(form.slug) }}</div>
+    <div class="col-md-2">{{ form_row(form.isSold) }}</div>
+</div>
+{{ form_widget(form) }}
+<button class="btn btn-primary">{{ button|default('Registrar') }}</button>
+{{ form_end(form) }}
