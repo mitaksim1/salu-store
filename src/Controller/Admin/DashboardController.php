@@ -61,6 +61,8 @@ class DashboardController extends AbstractController
             $this->em->persist($clothes);
             // Envoi les informations traitées vers la bdd
             $this->em->flush();
+            // Ajoute un message de confirmation de création du registre
+            $this->addFlash('success', 'O registro foi criado com sucesso!');
             // Redirige vers la page précisée
             return $this->redirectToRoute('admin.dashboard.index');
         }
@@ -86,6 +88,8 @@ class DashboardController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // Envoi les informations traitées vers la bdd
             $this->em->flush();
+            // Ajoute un message de confirmation de changement
+            $this->addFlash('success', 'O registro foi modificado com sucesso!');
             // Redirige vers la page précisée
             return $this->redirectToRoute('admin.dashboard.index');
         }
@@ -109,6 +113,8 @@ class DashboardController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $clothes->getId(), $request->get('_token'))) {
             $this->em->remove($clothes);
             $this->em->flush();
+            // Ajoute un message de confirmation de suppression
+            $this->addFlash('success', 'O registro foi apagado com sucesso!');
         }
         return $this->redirectToRoute('admin.dashboard.index');
     }

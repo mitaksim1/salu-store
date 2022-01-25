@@ -5,6 +5,12 @@
 {% block body %}
 <!-- Content Row -->
 <div class="row">
+    {# Affichage d'un message si create, edit ou delete un champs avec succès #}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
     <table class="table table-striped">
         <thead>
             <tr>
