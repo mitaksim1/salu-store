@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Clothes;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -29,5 +30,13 @@ class ClothesType extends AbstractType
             // Translate dashboard's label language
             'translation_domain' => 'forms'
         ]);
+    }
+
+    public function getChoices() 
+    {
+        $clothes = new Clothes();
+        $choices = $clothes->getSlug();
+
+        return $choices;
     }
 }
