@@ -18,14 +18,18 @@
                 <td>{{ item.name }}</td>
                 <td>
                     <a href="{{ path('admin.dashboard.edit', {id: item.id}) }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i>Editar</a>
-                </td>
-                <td>
-                    <a href="{{ path('admin.dashboard.new') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i>Criar</a>
+                    <form method="post" action="{{ path('admin.dashboard.delete', {id: item.id}) }}" style="display: inline-block">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ item.id) }}">
+                        <button class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm">Apagar</button>
+                    </form>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
-    </table>   
+    </table>  
+    <div class="text-right">
+        <a href="{{ path('admin.dashboard.new') }}" class="btn btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i>Criar</a>
+    </div> 
 </div>
 <!-- End of content row -->   
 {% endblock %}

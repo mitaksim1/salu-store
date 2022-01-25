@@ -74,7 +74,7 @@ class DashboardController extends AbstractController
     /**
      * Edit clothes in the admin's dashboard interface
      * 
-     * @Route("/admin/clothes/{id}", name="admin.dashboard.edit")
+     * @Route("/admin/clothes/{id}", name="admin.dashboard.edit", methods="GET|POST")
      * @return Response
      */
     public function edit(Clothes $clothes, Request $request)
@@ -94,5 +94,22 @@ class DashboardController extends AbstractController
             'clothes' => $clothes,
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * Delete an item in the dashboard's interface
+     * 
+     * @Route("/admin/delete/clothes/{id}", name="admin.dashboard.delete")
+     * @param Clothes $clothes
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function delete(Clothes $clothes, Request $request) 
+    {
+        // Validation du token Csrf
+        if ($this->isCsrfTokenValid('delete' . $clothes->getId(), $request->get('_token'))) {
+            $this->em->remove($clothes);
+            $this->em->flush();
+        }
+        return $this->redirectToRoute('admin.dashboard.index');
     }
 }
