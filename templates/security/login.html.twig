@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conexao{% endblock %}
+
+{% block body %}
+    <div class="container mt-4 mb-4">
+
+        {% if error %}
+            <div class="alert alert-danger">
+                {# Affiche le message d'erreur ou la traduction de ce message #}
+                {{ error.messageKey | trans(error.messagedata, 'security') }}
+            </div>
+        {% endif %}
+
+        <form action="{{ path('login')}}" method="post">
+            <div class="form-group">
+                <label for="username">Nome do usuario</label>
+                <input type="text" id="username" name="_username" class="form-control">
+            </div>
+     
+            <div class="form-group mt-4">
+                <label for="password">Senha</label>
+                <input type="text" id="password" name="_password" class="form-control">
+            </div>
+     
+            <button type="submit" class="btn btn-primary mt-4">Connexao</button>
+        </form>
+    </div> 
+{% endblock %}
