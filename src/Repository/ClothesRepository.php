@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Clothes;
 use Doctrine\ORM\Query;
+use App\Entity\ClothesSearch;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -26,10 +27,26 @@ class ClothesRepository extends ServiceEntityRepository
      *
      * @return Query
      */
-    public function findAllClothesNotSoldRequest(): Query
+    public function findAllClothesNotSoldRequest(ClothesSearch $search): Query
     {
-        return $this->findAllClothesNotSoldQuery()
-                ->getQuery();
+        $query = $this->findAllClothesNotSoldQuery();
+
+        // Taille
+        if ($search->getSize()) {
+            // Pour éviter les possibles injections SQL, on définit une variable pour le champs size
+            // andwhere permet que les deux requetes soient tenu en compte
+            $query = $query->andwhere('c.size = :size')
+                            // On doit parametrer la variable :size pour qu'il sache que ça correspond à la valeur contenu dans getSize()
+                            ->setParameter('size', $search->getSize());
+        }
+
+        // Prix maximum
+        if ($search->getMaxPrice()) {
+            $query = $query->andwhere('c.price <= :price')
+                            ->setParameter('price', $search->getMaxPrice());
+        }
+        
+        return $query->getQuery();
     }
 
     /**

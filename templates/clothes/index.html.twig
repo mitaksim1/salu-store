@@ -3,6 +3,23 @@
 {% block title %}Todos os produtos{% endblock %}
 
 {% block body %}
+    <div class="jumbotron">
+        <div class="container mt-4">
+            {{ form_start(form) }}
+            <div class="form-row">
+                <div class="col">
+                    {{ form_row(form.size) }}
+                </div>
+                <div class="col">
+                    {{ form_row(form.maxPrice) }}
+                </div>
+                <div class="col">
+                    <button class="btn btn-primary">Buscar</button>
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
     <div class="container mt-4">
         <h1>Todos os produtos</h1>
         {# row: permet de "créer une ligne, col-md-4 : permet d'aligner le contenu de la div en 3 fois (4 + 4 + 4 = 12) #}

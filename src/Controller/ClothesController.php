@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Clothes;
+use App\Entity\ClothesSearch;
+use App\Form\ClothesSearchType;
 use App\Repository\ClothesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -27,15 +29,22 @@ class ClothesController extends AbstractController
      */
     public function index(PaginatorInterface $paginator, Request $request): Response
     {
+        
+        // Gérer le traitement pour la requête de tri selon le prix
+        $search = new ClothesSearch();
+        $form = $this->createForm(ClothesSearchType::class, $search);
+        $form->handleRequest($request);
+
         // Request all clothes and paginate it at the same time
         $clothes = $paginator->paginate(
-            $this->clothesRepository->findAllClothesNotSoldRequest(),
+            $this->clothesRepository->findAllClothesNotSoldRequest($search),
             $request->query->getInt('page', 1), 9
         );
     
         return $this->render('clothes/index.html.twig', [
             'current_menu' => 'clothes',
-            'clothes' => $clothes
+            'clothes' => $clothes,
+            'form' => $form->createView()
         ]);
     }
 
