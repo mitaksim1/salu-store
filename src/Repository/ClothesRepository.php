@@ -3,9 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Clothes;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Clothes|null find($id, $lockMode = null, $lockVersion = null)
@@ -21,17 +22,14 @@ class ClothesRepository extends ServiceEntityRepository
     }
 
     /**
-     * Retourne un tableau des articles pas encore vendus
+     * Retourne la requête de tous les articles non vendus
      *
-     * @return Clothes[]
+     * @return Query
      */
-    public function findAllClothesNotSold(): array
+    public function findAllClothesNotSoldRequest(): Query
     {
         return $this->findAllClothesNotSoldQuery()
-                ->where('c.isSold = false')
-                ->getQuery()
-                ->getResult()
-        ;
+                ->getQuery();
     }
 
     /**
@@ -42,11 +40,9 @@ class ClothesRepository extends ServiceEntityRepository
     public function findLatest()
     {
         return $this->findAllClothesNotSoldQuery()
-                ->where('c.isSold = false')
                 ->setMaxResults(4)
                 ->getQuery()
-                ->getResult()
-        ; 
+                ->getResult(); 
     }
 
     /**

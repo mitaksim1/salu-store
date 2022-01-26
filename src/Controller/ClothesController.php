@@ -5,9 +5,11 @@ namespace App\Controller;
 use App\Entity\Clothes;
 use App\Repository\ClothesRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ClothesController extends AbstractController
 {
@@ -23,10 +25,13 @@ class ClothesController extends AbstractController
      * @Route("/clothes", name="clothes.index")
      * @return Response
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator, Request $request): Response
     {
-        // Request all clothes
-        $clothes = $this->clothesRepository->findAllClothesNotSold();
+        // Request all clothes and paginate it at the same time
+        $clothes = $paginator->paginate(
+            $this->clothesRepository->findAllClothesNotSoldRequest(),
+            $request->query->getInt('page', 1), 9
+        );
     
         return $this->render('clothes/index.html.twig', [
             'current_menu' => 'clothes',
