@@ -21,6 +21,10 @@ security:
             form_login: 
                 # Changement du path par défaut login_check par login
                 check_path: login
+            
+            logout:
+                path: /logout
+                target: /
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -33,6 +37,9 @@ security:
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+    
+    encoders:
+        App\Entity\User: plaintext
 
 when@test:
     security:

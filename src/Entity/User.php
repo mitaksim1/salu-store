@@ -90,12 +90,11 @@ class User implements UserInterface,\Serializable
     }
 
     /**
-     * @return string
      *
      */
     public function getUserIdentifier()
     {
-
+        return $this->username;
     }
 
     /**
@@ -113,7 +112,7 @@ class User implements UserInterface,\Serializable
      */
     public function serialize()
     {
-        return $this->serialize([
+        return serialize([
             $this->id,
             $this->username,
             $this->password
