@@ -25,9 +25,12 @@ class ClothesController extends AbstractController
      */
     public function index(): Response
     {
+        // Request all clothes
+        $clothes = $this->clothesRepository->findAllClothesNotSold();
     
         return $this->render('clothes/index.html.twig', [
             'current_menu' => 'clothes',
+            'clothes' => $clothes
         ]);
     }
 
