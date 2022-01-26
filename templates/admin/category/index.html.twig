@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pagina Categorias{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <!-- Content Row -->
+    <div class="row">
+        {# Affichage d'un message si create, edit ou delete un champs avec succès #}
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Açao</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in categories %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>
+                        <a href="{{ path('admin.category.edit', {id: item.id}) }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i>Editar</a>
+                        <form method="post" action="{{ path('admin.category.delete', {id: item.id}) }}" style="display: inline-block" onsubmit="return confirm('Você deseja realmente apagar esta linha?')">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ item.id) }}">
+                            <button class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm">Apagar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>  
+        <div class="text-right">
+            <a href="{{ path('admin.category.new') }}" class="btn btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i>Criar</a>
+        </div> 
+    </div>
+    <!-- End of content row --> 
+</div>
+  
+{% endblock %}
+
+                    
+
+        

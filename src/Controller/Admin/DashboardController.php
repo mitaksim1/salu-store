@@ -6,10 +6,10 @@ use App\Entity\Clothes;
 use App\Form\ClothesType;
 use App\Repository\ClothesRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class DashboardController extends AbstractController
 {
@@ -81,6 +81,7 @@ class DashboardController extends AbstractController
      */
     public function edit(Clothes $clothes, Request $request)
     {
+
         $form = $this->createForm(ClothesType::class, $clothes);
         // Récupère et traite les informations du formulaire
         $form->handleRequest($request);

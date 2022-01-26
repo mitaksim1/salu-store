@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Category;
 use App\Entity\Clothes;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,6 +22,11 @@ class ClothesType extends AbstractType
             ->add('slug')
             ->add('isSold')
             ->add('file')
+            ->add('category', EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'multiple' => true
+            ])
         ;
     }
 
@@ -30,13 +37,5 @@ class ClothesType extends AbstractType
             // Translate dashboard's label language
             'translation_domain' => 'forms'
         ]);
-    }
-
-    public function getChoices() 
-    {
-        $clothes = new Clothes();
-        $choices = $clothes->getSlug();
-
-        return $choices;
     }
 }

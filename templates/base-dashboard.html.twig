@@ -51,10 +51,10 @@
 
                 {# Nav Item - Pages Collapse Menu #}
                 <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    <a class="nav-link collapsed" href="{{ path('admin.category.index') }}" data-toggle="collapse" data-target="#collapseTwo"
                         aria-expanded="true" aria-controls="collapseTwo">
                         <i class="fas fa-fw fa-cog"></i>
-                        <span>Components</span>
+                        <span>Categorias</span>
                     </a>
                     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
@@ -240,8 +240,6 @@
                         <!-- Page Heading -->
                         <div class="d-sm-flex align-items-center justify-content-between mb-4">
                             <h1 class="h3 mb-0 text-gray-800">Administraçao</h1>
-                            {# <a href="{{ path('admin.dashboard.edit', {id: item.id}) }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                    class="fas fa-download fa-sm text-white-50"></i>Editar</a> #}
                         </div>
                         {% block body %} {% endblock %}
                     </div>
