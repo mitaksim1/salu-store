@@ -38,8 +38,12 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
     
+    # Permet de créer un encoder pour la connexion des utilisateurs
     encoders:
-        App\Entity\User: plaintext
+        App\Entity\User: 
+            algorithm: bcrypt
+            # Plus c'est grand plus ça va mettre du temps pour chiffrer les mots de passe et aussi plus sécurisée
+            cost: 12
 
 when@test:
     security:
