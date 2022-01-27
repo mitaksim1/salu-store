@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Category;
 use App\Entity\ClothesSearch;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -31,6 +33,13 @@ class ClothesSearchType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Tamanho'
                 ]
+            ])
+            ->add('categories', EntityType::class, [
+                'required' => false,
+                'label' => false,
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'multiple' => true
             ])
         ;
     }

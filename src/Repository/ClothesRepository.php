@@ -45,6 +45,17 @@ class ClothesRepository extends ServiceEntityRepository
             $query = $query->andwhere('c.price <= :price')
                             ->setParameter('price', $search->getMaxPrice());
         }
+
+        if ($search->getCategories()->count() > 0) {
+            $k = 0;
+
+            foreach($search->getCategories() as $k => $category) {
+                $k++;
+                
+                $query = $query->andwhere(":category$k MEMBER OF c.category")
+                                ->setParameter("category$k", $category);
+            }
+        }
         
         return $query->getQuery();
     }

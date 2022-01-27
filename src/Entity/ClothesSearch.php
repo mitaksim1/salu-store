@@ -1,6 +1,7 @@
 <?php
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 // Cette entité n'es pas reliée à la base de données
@@ -24,7 +25,18 @@ class ClothesSearch
      */
     private $maxPrice;
 
+    /**
+     * Search clothes by category
+     *
+     * @var ArrayCollection
+     */
+    private $categories;
        
+    public function __construct()
+    {
+        $this->categories = new ArrayCollection();
+    }
+
     /**
      * Get search clothes by max price
      *
@@ -69,6 +81,30 @@ class ClothesSearch
     public function setSize($size)
     {
         $this->size = $size;
+
+        return $this;
+    }
+
+    /**
+     * Get search clothes by category
+     *
+     * @return  ArrayCollection
+     */ 
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+
+    /**
+     * Set search clothes by category
+     *
+     * @param  ArrayCollection  $categories  Search clothes by category
+     *
+     * @return  self
+     */ 
+    public function setCategories(ArrayCollection $categories)
+    {
+        $this->categories = $categories;
 
         return $this;
     }
