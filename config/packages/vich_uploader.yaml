@@ -1,0 +1,17 @@
+vich_uploader:
+    db_driver: orm
+
+    mappings:
+        # Choix du nom du mapping
+        clothes_image:
+            # Le prefix que sera marqué dans le nom des images
+            uri_prefix: /images/clothes
+            # L'endroit où les images seront stockés
+            upload_destination: '%kernel.project_dir%/public/images/clothes'
+            # On précise que chaque image aura un nom unique
+            namer: Vich\UploaderBundle\Naming\UniqidNamer
+
+    #mappings:
+    #    products:
+    #        uri_prefix: /images/products
+    #        upload_destination: '%kernel.project_dir%/public/images/products'

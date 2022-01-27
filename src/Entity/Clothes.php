@@ -9,10 +9,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=ClothesRepository::class)
  * @UniqueEntity("name")
+ * @Vich\Uploadable
  */
 class Clothes
 {
@@ -22,6 +24,14 @@ class Clothes
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * Upload images
+     *
+     * @var File|null
+     * @Vich\UploadableField(mapping="clothes_image", fileNameProperty="file")
+     */
+    private $imageFile;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -208,4 +218,27 @@ class Clothes
         return $this->name;
     }
 
+    /**
+     * Get undocumented variable
+     *
+     * @return  File|null
+     */ 
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * Set undocumented variable
+     *
+     * @param  File|null  $imageFile  Undocumented variable
+     *
+     * @return  self
+     */ 
+    public function setImageFile($imageFile)
+    {
+        $this->imageFile = $imageFile;
+
+        return $this;
+    }
 }
