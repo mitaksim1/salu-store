@@ -9,7 +9,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Liip\ImagineBundle\Imagine\Cache\CacheManager;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
 class DashboardController extends AbstractController
 {
@@ -79,19 +82,24 @@ class DashboardController extends AbstractController
      * @Route("/admin/clothes/{id}", name="admin.dashboard.edit", methods="GET|POST")
      * @return Response
      */
-    public function edit(Clothes $clothes, Request $request)
+    public function edit(Clothes $clothes, Request $request, CacheManager $cacheManager, UploaderHelper $uploaderHelper)
     {
 
         $form = $this->createForm(ClothesType::class, $clothes);
-        // Récupère et traite les informations du formulaire
+        
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Envoi les informations traitées vers la bdd
+            // Vérifie si une image a déjà été uploadé
+            // Si c'est le cas il efface l'ancienne du cache
+            if ($clothes->getImageFile() instanceof UploadedFile) {
+                // CacheManager permet de supprimer une image du cache
+                $cacheManager->remove($uploaderHelper->asset($clothes, 'imageFile'));
+            }
             $this->em->flush();
-            // Ajoute un message de confirmation de changement
+           
             $this->addFlash('success', 'O registro foi modificado com sucesso!');
-            // Redirige vers la page précisée
+            
             return $this->redirectToRoute('admin.dashboard.index');
         }
 

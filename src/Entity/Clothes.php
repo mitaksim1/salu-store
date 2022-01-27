@@ -29,6 +29,7 @@ class Clothes
      * Upload images
      *
      * @var File|null
+     * @Assert\Image(mimeTypes="image/jpeg")
      * @Vich\UploadableField(mapping="clothes_image", fileNameProperty="file")
      */
     private $imageFile;

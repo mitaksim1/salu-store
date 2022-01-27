@@ -1,5 +1,5 @@
 <div class="card mb-4">
-    <img src="/images/clothes/{{ item.file }}" class="card-img-top alt="{{ item.description }}" style="width:100%; height:100%;">
+    <img src="{{ vich_uploader_asset(item, 'imageFile') | imagine_filter('thumbs') }}" class="card-img-top alt="{{ item.description }}" style="width:100%; height:100%;">
     <div class="card-body">
         <h5 class="card-title">
             <a href="{{ path('clothes.show', {slug: item.slug, id: item.id}) }}">{{ item.name }}</a>
