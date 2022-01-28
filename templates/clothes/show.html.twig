@@ -7,7 +7,15 @@
     <section class="py-5">
         <div class="container px-4 px-lg-5 my-5">
             <div class="row gx-4 gx-lg-5 align-clothess-center">
-                <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..." /></div>
+                <div class="col-md-6">
+                    {# <img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..." /> #}
+                    {% if clothes.file %}
+                        <img src="{{ vich_uploader_asset(clothes, 'imageFile') | imagine_filter('large') }}" class="card-img-top" alt="{{ clothes.description }}" style="width:100%; height:auto;">
+                    {% else %}
+                        {# Cette partie a été créée juste pour la mise en forme pour que tous les cards aient une image #}
+                        <img src="{{ asset('/images/clothes/empty.jpg') | imagine_filter('large') }}" class="card-img-top" alt="{{ clothes.description }}" style="width:100%; height:auto;">
+                    {% endif %}
+                </div>
                 <div class="col-md-6">
                     <h1 class="display-5 fw-bolder">{{ clothes.name }}</h1>
                     <div class="fs-5 mb-5">

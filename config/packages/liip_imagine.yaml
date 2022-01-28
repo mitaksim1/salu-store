@@ -9,6 +9,11 @@ liip_imagine:
             filters:
                 thumbnail:
                     size:           [360, 230]
-                    mode:           inset
-                    allow_upscale: true
+                    mode:           outbound
+        large:
+            quality: 75
+            filters:
+                thumbnail:
+                    size:           [800, 530]
+                    mode:           outbound
 

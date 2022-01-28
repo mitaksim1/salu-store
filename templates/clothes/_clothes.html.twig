@@ -1,5 +1,10 @@
 <div class="card mb-4">
-    <img src="{{ vich_uploader_asset(item, 'imageFile') | imagine_filter('thumbs') }}" class="card-img-top alt="{{ item.description }}" style="width:100%; height:100%;">
+    {% if item.file %}
+        <img src="{{ vich_uploader_asset(item, 'imageFile') | imagine_filter('thumbs') }}" class="card-img-top" alt="{{ item.description }}" style="width:100%; height:auto;">
+    {% else %}
+        {# Cette partie a été créée juste pour la mise en forme pour que tous les cards aient une image #}
+        <img src="{{ asset('/images/clothes/empty.jpg') | imagine_filter('thumbs') }}" class="card-img-top" alt="{{ item.description }}" style="width:100%; height:auto;">
+    {% endif %}
     <div class="card-body">
         <h5 class="card-title">
             <a href="{{ path('clothes.show', {slug: item.slug, id: item.id}) }}">{{ item.name }}</a>
