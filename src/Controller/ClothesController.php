@@ -3,10 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Clothes;
+use App\Entity\Contact;
+use App\Form\ContactType;
 use App\Entity\ClothesSearch;
 use App\Form\ClothesSearchType;
 use App\Repository\ClothesRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Notification\ContactNotification;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -52,17 +55,37 @@ class ClothesController extends AbstractController
      * @Route("/clothes/{slug}-{id}", name="clothes.show", requirements={"slug": "[a-z0-9\-]*$"})
      * @return Response
      */
-    public function show(Clothes $clothes, string $slug): Response
+    public function show(Clothes $clothes, string $slug, Request $request, ContactNotification $notification): Response
     {
+        
         if ($clothes->getSlug() !== $slug) {
             return $this->redirectToRoute('clothes.show', [
                 'id' => $clothes->getId(),
                 'slug' => $clothes->getSlug()
             ], 301);
         }
+        // Ajout du formulaire de contact
+        $contact = new Contact();
+        $contact->setClothes($clothes);
+
+        $form = $this->createForm(ContactType::class, $contact);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $notification->notify($contact);
+
+            $this->addFlash('success', 'Votre email a bien été envoyé');
+
+            return $this->redirectToRoute('clothes.show', [
+                'id' => $clothes->getId(),
+                'slug' => $clothes->getSlug()
+            ], 301);
+        }
+
         return $this->render('clothes/show.html.twig', [
             'current_menu' => 'clothes',
-            'clothes' => $clothes
+            'clothes' => $clothes,
+            'form' => $form->createView()
         ]);
     }
 }

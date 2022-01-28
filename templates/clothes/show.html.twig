@@ -6,6 +6,19 @@
     <!-- Product section-->
     <section class="py-5">
         <div class="container px-4 px-lg-5 my-5">
+            {# Affichage d'un message pour confirmer l'envoi du mail #}
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    Sua mensagem foi enviada com sucesso
+                </div>
+            {% endfor %}
+
+            {# Affichage d'un message d'erreur si le formulairen'est pas valide #}
+            {% if not form.vars.valid %}
+                <div class="alert alert-danger">
+                    Erro ao preencher o formulario
+                </div>
+            {% endif %}
             <div class="row gx-4 gx-lg-5 align-clothess-center">
                 <div class="col-md-6">
                     {# <img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..." /> #}
@@ -26,9 +39,26 @@
                     <div class="d-flex">
                         <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
                         <button class="btn btn-outline-dark flex-shrink-0" type="button">
-                            <i class="bi-cart-fill me-1"></i>
-                            Add to cart
+                            Contatar o vendedor
                         </button>
+                    </div>
+                    <div id="contactForm" class="mt-4">
+                        {{ form_start(form) }}
+                            <div class="row">
+                                <div class="col">{{ form_row(form.firstname)}}</div>
+                                <div class="col">{{ form_row(form.lastname)}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">{{ form_row(form.phone)}}</div>
+                                <div class="col">{{ form_row(form.email)}}</div>
+                            </div>
+                            {{ form_rest(form) }}
+                            <div class="form-group">
+                                <button class="btn btn-primary">
+                                    Enviar
+                                </button>
+                            </div>
+                        {{ form_end(form) }}
                     </div>
                 </div>
             </div>

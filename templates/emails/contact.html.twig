@@ -1,0 +1,19 @@
+<body class="bg-light">
+    <div class="container">
+      <div class="card p-6 p-lg-10 space-y-4">
+        <h1 class="h3 fw-700">
+          Contato en relaçao ao artigo {{ contact.clothes.name }}
+        </h1>
+        <p>
+          Um cliente esta interessado em obter mais informaçoes sobre este artigo :
+          <a class="btn btn-primary p-3 fw-700" href="{{ url('clothes.show', {id: contact.clothes.id, slug: contact.clothes.slug}) }}">{{ contact.clothes.name }}</a>
+        </p>   
+      </div>
+      <div class="text-muted text-center my-6">
+        Enviado por : <3 {{ contact.firstname }} {{ contact.lastname }} <br>
+        Telefone : {{ contact.phone }}<br>
+        Email : {{ contact.email }}<br>
+        Message : {{ contact.message | nl2br }}
+      </div>
+    </div>
+  </body>
